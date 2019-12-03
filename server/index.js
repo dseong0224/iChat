@@ -19,9 +19,11 @@ io.on('connection', (socket) => {
     if(error) return callback(error);
 
     socket.emit('message', { user: 'user', text: `${user.name}, welcome to room ${user.room}`});
-    socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name}, has joined!`});
+    socket.broadcast.to(user.room).emit('message', { user: 'user', text: `${user.name}, has joined!`});
 
     socket.join(user.room);
+
+    io.to(user.room).emit('roomData', { room: user.room, user: getUsersInRoom(user.room)})
 
     callback();
   })
@@ -30,12 +32,17 @@ io.on('connection', (socket) => {
     const user = getUser(socket.id);
 
     io.to(user.room).emit('message', { user: user.name, text: message });
+    io.to(user.room).emit('roomData', { room: user.room, user: getUsersInRoom(user.room)})
 
     callback();
   })
 
   socket.on('disconnect', () => {
-    console.log('user had left!!!');
+    const user = removeUser(socket.id);
+
+    if(user){
+      io.to(user.room).emit('message', { user: 'user', text: `${user.name} has left the chat.`})
+    }
   })
 });
 
