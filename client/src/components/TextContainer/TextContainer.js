@@ -8,7 +8,7 @@ const TextContainer = ({ users }) => (
   <div className="textContainer">
     <div>
       <h1>
-        iChat, iMessage but better!
+        iChatt, iMessage Replica 
         <span role="img" aria-label="emoji">
           💬
         </span>
