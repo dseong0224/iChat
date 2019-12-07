@@ -25,13 +25,13 @@ io.on("connect", socket => {
     }
 
     socket.emit("message", {
-      user: "user",
-      text: `${user.name}, welcome to room ${user.room}`
+      user: "",
+      text: `Welcome, you have joined room ${user.room}`
     });
     
     socket.broadcast
       .to(user.room)
-      .emit("message", { user: "user", text: `${user.name} has joined!` });
+      .emit("message", { user: "", text: `${user.name} has joined the chat` });
 
     io.to(user.room).emit("roomData", {
       room: user.room,
