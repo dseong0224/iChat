@@ -3,8 +3,8 @@ let users = [];
 const addUser = ({ id, name, room }) => {
   console.log(id, name, room)
   //Fantasy Soccer ==> fantasysoccer
-  name = name.trim().toLowerCase();
-  room = room.trim().toLowerCase();
+  name = name.trim().toUpperCase();
+  room = room.trim().toUpperCase();
 
   const existingUser = users.find(
     user => user.room === room && user.name === name
