@@ -3,11 +3,11 @@ const socketio = require("socket.io");
 const http = require("http");
 const cors = require("cors");
 
-const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
+const { addUser, removeUser, getUser, getUsersInRoom } = require("./users.js");
 
 const PORT = process.env.PORT || 5000;
 
-const router = require('./router');
+const router = require("./router.js");
 
 const app = express();
 const server = http.createServer(app);
@@ -16,18 +16,19 @@ const io = socketio(server);
 app.use(router);
 app.use(cors());
 
-io.on("connect", (socket) => {
+io.on("connect", socket => {
   socket.on("join", ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
 
-    if (error) return callback(error);
-
-    socket.join(user.room);
+    if (error) {
+      return callback(error);
+    }
 
     socket.emit("message", {
       user: "user",
       text: `${user.name}, welcome to room ${user.room}`
     });
+    
     socket.broadcast
       .to(user.room)
       .emit("message", { user: "user", text: `${user.name} has joined!` });
@@ -36,6 +37,8 @@ io.on("connect", (socket) => {
       room: user.room,
       users: getUsersInRoom(user.room)
     });
+
+    socket.join(user.room);
 
     callback();
   });
