@@ -4,10 +4,10 @@ import io from 'socket.io-client';
 
 import './Chat.css';
 
+import TextContainer from '../TextContainer/TextContainer';
+import Messages from '../Messages/Messages';
 import InfoBar from '../InfoBar/InfoBar';
 import Input from '../Input/Input';
-import Messages from '../Messages/Messages';
-import TextContainer from '../TextContainer/TextContainer';
 
 let socket;
 
@@ -37,10 +37,12 @@ const Chat = ({ location }) => {
 
   useEffect(() => {
     socket.on('message', (message) => {
+      console.log("message: ", message)
       setMessages([...messages, message]);
     });
 
     socket.on('roomData', ({ users }) => {
+      console.log("users: ", users);
       setUsers(users);
     })
 
@@ -60,7 +62,9 @@ const Chat = ({ location }) => {
     }
   }
 
-  console.log(message, messages);
+  // console.log("message: ",message, "messages: ", messages);
+
+  
 
 
   return (

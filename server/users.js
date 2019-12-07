@@ -2,7 +2,7 @@ const users = [];
 
 const addUser = ({ id, name, room }) => {
   //Fantasy Soccer ==> fantasysoccer
-
+debugger;
   name = name.trim().toLowerCase();
   room = room.trim().toLowerCase();
 
@@ -21,6 +21,8 @@ const addUser = ({ id, name, room }) => {
   }
 
   const user = { id, name, room };
+
+  alert('hello')
 
   users.push(user);
 
