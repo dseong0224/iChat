@@ -3,14 +3,14 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #1A1A1D;
+  background-color: rgba(12, 12, 12, 0.698);
 }
 
 .container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #FFFFFF;
+  background: #1A1A1D;
   border-radius: 8px;
   height: 60%;
   width: 35%;
