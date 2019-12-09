@@ -4,9 +4,10 @@ import io from "socket.io-client";
 
 import "./Chat.css";
 
-import Messages from "../Messages/Messages";
-import InfoBar from "../InfoBar/InfoBar";
-import Input from "../Input/Input";
+import InfoBar from '../InfoBar/InfoBar';
+import Input from '../Input/Input';
+import Messages from '../Messages/Messages';
+// import TextContainer from '../TextContainer/TextContainer';
 
 let socket;
 
@@ -66,6 +67,7 @@ const Chat = ({ location }) => {
           sendMessage={sendMessage}
         />
       </div>
+      {/* <TextContainer users={users}/> */}
     </div>
   );
 };

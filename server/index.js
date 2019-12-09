@@ -1,28 +1,32 @@
-const express = require('express');
-const socketio = require('socket.io');
-const http = require('http');
-const cors = require('cors');
+const express = require("express");
+const socketio = require("socket.io");
+const http = require("http");
 
-const { addUser, removeUser, getUser, getUsersInRoom } = require('./users.js');
+const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
 
 const PORT = process.env.PORT || 5000;
 
-const router = require('./router');
+const router = require("./router");
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-app.use(router);
-app.use(cors());
-
-io.on("connect", socket => {
+io.on("connection", socket => {
   socket.on("join", ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
 
-    if (error) {
-      return callback(error);
-    }
+    if (error) return callback(error);
+
+    socket.emit("message", {
+      user: "",
+      text: `Welcome, you have joined room ${user.room}`
+    });
+    socket.broadcast
+      .to(user.room)
+      .emit("message", { user: "", text: `${user.name} has joined the chat` });
+app.use(router);
+
 
     socket.emit("message", {
       user: "",
@@ -50,6 +54,10 @@ io.on("connect", socket => {
       user: user.name,
       text: message
     });
+    io.to(user.room).emit("roomData", {
+      room: user.room,
+      user: getUsersInRoom(user.room)
+    });
 
     callback();
   });
@@ -59,12 +67,8 @@ io.on("connect", socket => {
 
     if (user) {
       io.to(user.room).emit("message", {
-        user: "user",
+        user: "",
         text: `${user.name} has left the chat.`
-      });
-      io.to(user.room).emit("roomData", {
-        room: user.room,
-        users: getUsersInRoom(user.room)
       });
     }
   });
