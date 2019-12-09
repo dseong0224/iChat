@@ -1,8 +1,9 @@
+  
 .infoBar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #2979FF;
+  background: rgb(15, 102, 0);
   border-radius: 4px 4px 0 0;
   height: 60px;
   width: 100%;
