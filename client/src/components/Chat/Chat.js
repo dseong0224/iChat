@@ -19,6 +19,7 @@ const Chat = ({ location }) => {
   const [messages, setMessages] = useState([]);
   const ENDPOINT = "localhost:5000";
 
+
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
 
@@ -58,8 +59,6 @@ const Chat = ({ location }) => {
       socket.emit("sendMessage", message, () => setMessage(""));
     }
   };
-
-  console.log(message, messages);
 
   return (
     <div className="outerContainer">
