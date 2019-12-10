@@ -25,13 +25,24 @@ io.on("connection", socket => {
     socket.broadcast
       .to(user.room)
       .emit("message", { user: "", text: `${user.name} has joined the chat` });
+app.use(router);
 
-    socket.join(user.room);
+
+    socket.emit("message", {
+      user: "",
+      text: `Welcome, you have joined room ${user.room}`
+    });
+    
+    socket.broadcast
+      .to(user.room)
+      .emit("message", { user: "", text: `${user.name} has joined the chat` });
 
     io.to(user.room).emit("roomData", {
       room: user.room,
-      user: getUsersInRoom(user.room)
+      users: getUsersInRoom(user.room)
     });
+
+    socket.join(user.room);
 
     callback();
   });
@@ -62,7 +73,5 @@ io.on("connection", socket => {
     }
   });
 });
-
-app.use(router);
 
 server.listen(PORT, () => console.log(`Server has started on port ${PORT}`));
