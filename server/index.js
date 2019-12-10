@@ -22,6 +22,8 @@ io.on("connection", socket => {
 
     if (error) return callback(error);
 
+    socket.join(user.room);
+
     socket.emit("message", {
       user: "",
       text: `Welcome, you have joined room ${user.room}`
@@ -31,9 +33,7 @@ io.on("connection", socket => {
       user: "",
       text: `${user.name} has joined the chat`
     });
-
-    socket.join(user.room);
-
+    
     io.to(user.room).emit("roomData", {
       room: user.room,
       users: getUsersInRoom(user.room)
@@ -50,11 +50,6 @@ io.on("connection", socket => {
       text: message
     });
 
-    io.to(user.room).emit("roomData", {
-      room: user.room,
-      users: getUsersInRoom(user.room)
-    });
-
     callback();
   });
 
@@ -65,6 +60,11 @@ io.on("connection", socket => {
       io.to(user.room).emit("message", {
         user: "",
         text: `${user.name} has left the chat.`
+      });
+
+      io.to(user.room).emit("roomData", {
+        room: user.room,
+        users: getUsersInRoom(user.room)
       });
     }
   });
