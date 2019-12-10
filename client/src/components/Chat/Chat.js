@@ -4,9 +4,9 @@ import io from "socket.io-client";
 
 import "./Chat.css";
 
-import InfoBar from '../InfoBar/InfoBar';
-import Input from '../Input/Input';
-import Messages from '../Messages/Messages';
+import InfoBar from "../InfoBar/InfoBar";
+import Input from "../Input/Input";
+import Messages from "../Messages/Messages";
 // import TextContainer from '../TextContainer/TextContainer';
 
 let socket;
@@ -14,9 +14,11 @@ let socket;
 const Chat = ({ location }) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
+  const [users, setUsers] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const ENDPOINT = "https://ichatt.herokuapp.com/";
+  const ENDPOINT = "localhost:5000";
+
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
@@ -38,6 +40,10 @@ const Chat = ({ location }) => {
       setMessages([...messages, message]);
     });
 
+    socket.on("roomData", ({ users }) => {
+      setUsers(users);
+    });
+
     return () => {
       socket.emit("disconnect");
 
@@ -53,8 +59,6 @@ const Chat = ({ location }) => {
       socket.emit("sendMessage", message, () => setMessage(""));
     }
   };
-
-  // console.log("message: ",message, "messages: ", messages);
 
   return (
     <div className="outerContainer">
