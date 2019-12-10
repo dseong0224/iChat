@@ -22,15 +22,17 @@ io.on("connection", socket => {
       user: "",
       text: `Welcome, you have joined room ${user.room}`
     });
-    socket.broadcast
-      .to(user.room)
-      .emit("message", { user: "", text: `${user.name} has joined the chat` });
+
+    socket.broadcast.to(user.room).emit("message", {
+      user: "",
+      text: `${user.name} has joined the chat`
+    });
 
     socket.join(user.room);
 
     io.to(user.room).emit("roomData", {
       room: user.room,
-      user: getUsersInRoom(user.room)
+      users: getUsersInRoom(user.room)
     });
 
     callback();
@@ -43,9 +45,10 @@ io.on("connection", socket => {
       user: user.name,
       text: message
     });
+
     io.to(user.room).emit("roomData", {
       room: user.room,
-      user: getUsersInRoom(user.room)
+      users: getUsersInRoom(user.room)
     });
 
     callback();
