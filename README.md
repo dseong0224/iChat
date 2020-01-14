@@ -4,7 +4,7 @@ Online Live Chat Application
 
 ### Live Demo: [ichattpro.netlify.com](http://ichattpro.netlify.com)
 
-![](hackersShop_demo.gif)
+![](ichattpro-demo.gif)
 
 ## Getting Started
 
