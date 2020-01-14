@@ -29,7 +29,7 @@ $ npm install
 $ npm start
 ```
 
-4. Go to localhost:3000 and enjoy 😃
+4. Open with Live Server and enjoy 😃
 
 
 ## Built With
